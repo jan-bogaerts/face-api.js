@@ -1,14 +1,14 @@
 export type FileSystem = {
-  readFile: (filePath: string) => Promise<Buffer>
+  readFile: null
 }
 
 export type Environment = FileSystem & {
-  Canvas: typeof HTMLCanvasElement
-  CanvasRenderingContext2D: typeof CanvasRenderingContext2D
-  Image: typeof HTMLImageElement
-  ImageData: typeof ImageData
-  Video: typeof HTMLVideoElement
-  createCanvasElement: () => HTMLCanvasElement
-  createImageElement: () => HTMLImageElement
+  Canvas: null
+  CanvasRenderingContext2D: null
+  Image: null
+  ImageData: null
+  Video: null
+  createCanvasElement: null
+  createImageElement: null
   fetch: (url: string, init?: RequestInit) => Promise<Response>
 }

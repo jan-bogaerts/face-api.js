@@ -1,4 +1,4 @@
-import { createBrowserEnv } from './createBrowserEnv';
+
 import { createFileSystem } from './createFileSystem';
 import { createNodejsEnv } from './createNodejsEnv';
 import { isBrowser } from './isBrowser';
@@ -7,26 +7,11 @@ import { Environment } from './types';
 
 let environment: Environment | null
 
-function getEnv(): Environment {
-  if (!environment) {
-    throw new Error('getEnv - environment is not defined, check isNodejs() and isBrowser()')
-  }
-  return environment
-}
 
-function setEnv(env: Environment) {
-  environment = env
-}
+
 
 function initialize() {
-  // check for isBrowser() first to prevent electron renderer process
-  // to be initialized with wrong environment due to isNodejs() returning true
-  if (isBrowser()) {
-    return setEnv(createBrowserEnv())
-  }
-  if (isNodejs()) {
-    return setEnv(createNodejsEnv())
-  }
+
 }
 
 function monkeyPatch(env: Partial<Environment>) {
@@ -41,8 +26,8 @@ function monkeyPatch(env: Partial<Environment>) {
   const { Canvas = environment.Canvas, Image = environment.Image } = env
   environment.Canvas = Canvas
   environment.Image = Image
-  environment.createCanvasElement = env.createCanvasElement || (() => new Canvas())
-  environment.createImageElement = env.createImageElement || (() => new Image())
+  environment.createCanvasElement = null
+  environment.createImageElement = null
 
   environment.ImageData = env.ImageData || environment.ImageData
   environment.Video = env.Video || environment.Video
@@ -51,10 +36,8 @@ function monkeyPatch(env: Partial<Environment>) {
 }
 
 export const env = {
-  getEnv,
-  setEnv,
   initialize,
-  createBrowserEnv,
+
   createFileSystem,
   createNodejsEnv,
   monkeyPatch,

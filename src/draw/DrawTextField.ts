@@ -1,6 +1,5 @@
 import { IDimensions, IPoint } from '../classes';
-import { getContext2dOrThrow } from '../dom/getContext2dOrThrow';
-import { resolveInput } from '../dom/resolveInput';
+
 
 export enum AnchorPosition {
   TOP_LEFT = 'TOP_LEFT',
@@ -85,24 +84,6 @@ export class DrawTextField {
   }
 
   draw(canvasArg: string | HTMLCanvasElement | CanvasRenderingContext2D) {
-    const canvas = resolveInput(canvasArg)
-    const ctx = getContext2dOrThrow(canvas)
-
-    const { backgroundColor, fontColor, fontSize, fontStyle, padding } = this.options
-
-    ctx.font = `${fontSize}px ${fontStyle}`
-    const maxTextWidth = this.measureWidth(ctx)
-    const textHeight = this.measureHeight()
-
-    ctx.fillStyle = backgroundColor
-    const upperLeft = this.getUpperLeft(ctx, canvas)
-    ctx.fillRect(upperLeft.x, upperLeft.y, maxTextWidth, textHeight)
-
-    ctx.fillStyle = fontColor;
-    this.text.forEach((textLine, i) => {
-      const x = padding + upperLeft.x
-      const y = padding + upperLeft.y + ((i + 1) * fontSize)
-      ctx.fillText(textLine, x, y)
-    })
+    throw new Error("not supported");
   }
 }

@@ -8,7 +8,7 @@ describe('extractFaces', () => {
   beforeAll(async () => {
     imgEl = await getTestEnv().loadImage('test/images/face1.png')
     canvasEl = createCanvasFromMedia(imgEl)
-    Canvas = env.getEnv().Canvas
+    Canvas = null
   })
 
   describe('extracts canvases', () => {

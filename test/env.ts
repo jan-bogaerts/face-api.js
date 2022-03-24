@@ -1,16 +1,12 @@
 import * as tf from '@tensorflow/tfjs-core';
 
-import { fetchImage, fetchJson, fetchNetWeights, NeuralNetwork } from '../src';
+import { fetchJson, fetchNetWeights, NeuralNetwork } from '../src';
 import { TestEnv } from './Environment';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000
 
 if (typeof window !== 'undefined' && window['__karma__'] && (window['__karma__'].config.jasmine.args as string[]).some(arg => arg === 'backend_cpu')) {
   tf.setBackend('cpu')
-}
-
-async function loadImageBrowser(uri: string): Promise<HTMLImageElement> {
-  return fetchImage(`base${uri.startsWith('/') ? '' : '/'}${uri}`)
 }
 
 async function loadJsonBrowser<T>(uri: string): Promise<T> {
@@ -29,7 +25,7 @@ async function initNetBrowser<TNet extends NeuralNetwork<any>>(
 }
 
 const browserTestEnv: TestEnv = {
-  loadImage: loadImageBrowser,
+  loadImage: null,
   loadJson: loadJsonBrowser,
   initNet: initNetBrowser
 }

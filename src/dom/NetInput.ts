@@ -1,16 +1,12 @@
 import * as tf from '@tensorflow/tfjs-core';
 
 import { Dimensions } from '../classes/Dimensions';
-import { env } from '../env';
 import { padToSquare } from '../ops/padToSquare';
 import { computeReshapedDimensions, isTensor3D, isTensor4D, range } from '../utils';
-import { createCanvasFromMedia } from './createCanvas';
-import { imageToSquare } from './imageToSquare';
 import { TResolvedNetInput } from './types';
 
 export class NetInput {
   private _imageTensors: Array<tf.Tensor3D | tf.Tensor4D> = []
-  private _canvases: HTMLCanvasElement[] = []
   private _batchSize: number
   private _treatAsBatchInput: boolean = false
 
@@ -46,10 +42,11 @@ export class NetInput {
         this._inputDimensions[idx] = input.shape.slice(1)
         return
       }
+      else {
+          throw new Error("tensor expected");
+      }
 
-      const canvas = input instanceof env.getEnv().Canvas ? input : createCanvasFromMedia(input)
-      this._canvases[idx] = canvas
-      this._inputDimensions[idx] = [canvas.height, canvas.width, 3]
+     
     })
   }
 
@@ -57,9 +54,6 @@ export class NetInput {
     return this._imageTensors
   }
 
-  public get canvases(): HTMLCanvasElement[] {
-    return this._canvases
-  }
 
   public get isBatchInput(): boolean {
     return this.batchSize > 1 || this._treatAsBatchInput
@@ -84,7 +78,7 @@ export class NetInput {
   }
 
   public getInput(batchIdx: number): tf.Tensor3D  | tf.Tensor4D | HTMLCanvasElement {
-    return this.canvases[batchIdx] || this.imageTensors[batchIdx]
+    return this.imageTensors[batchIdx]
   }
 
   public getInputDimensions(batchIdx: number): number[] {
@@ -138,11 +132,7 @@ export class NetInput {
           return imgTensor.as3D(inputSize, inputSize, 3)
         }
 
-        if (input instanceof env.getEnv().Canvas) {
-          return tf.browser.fromPixels(imageToSquare(input, inputSize, isCenterInputs))
-        }
-
-        throw new Error(`toBatchTensor - at batchIdx ${batchIdx}, expected input to be instanceof tf.Tensor or instanceof HTMLCanvasElement, instead have ${input}`)
+        throw new Error(`toBatchTensor - at batchIdx ${batchIdx}, expected input to be instanceof tf.Tensor, instead have ${input}`)
       })
 
       const batchTensor = tf.stack(inputTensors.map(t => t.toFloat())).as4D(this.batchSize, inputSize, inputSize, 3)

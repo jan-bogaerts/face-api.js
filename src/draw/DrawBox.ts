@@ -1,5 +1,4 @@
 import { Box, IBoundingBox, IRect } from '../classes';
-import { getContext2dOrThrow } from '../dom/getContext2dOrThrow';
 import { AnchorPosition, DrawTextField, DrawTextFieldOptions, IDrawTextFieldOptions } from './DrawTextField';
 
 export interface IDrawBoxOptions {
@@ -42,18 +41,6 @@ export class DrawBox {
   }
 
   draw(canvasArg: string | HTMLCanvasElement | CanvasRenderingContext2D) {
-    const ctx = getContext2dOrThrow(canvasArg)
-
-    const { boxColor, lineWidth } = this.options
-
-    const { x, y, width, height } = this.box
-    ctx.strokeStyle = boxColor
-    ctx.lineWidth = lineWidth
-    ctx.strokeRect(x, y, width, height)
-
-    const { label } = this.options
-    if (label) {
-      new DrawTextField([label], { x: x - (lineWidth / 2), y }, this.options.drawLabelOptions).draw(canvasArg)
-    }
+    throw new Error("Not supported");
   }
 }

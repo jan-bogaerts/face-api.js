@@ -3,7 +3,6 @@ import * as tf from '@tensorflow/tfjs-core';
 import { ParamMapping } from './common';
 import { getModelUris } from './common/getModelUris';
 import { loadWeightMap } from './dom';
-import { env } from './env';
 
 export abstract class NeuralNetwork<TNetParams> {
 
@@ -75,43 +74,14 @@ export abstract class NeuralNetwork<TNetParams> {
   }
 
   public async load(weightsOrUrl: Float32Array | string | undefined): Promise<void> {
-    if (weightsOrUrl instanceof Float32Array) {
-      this.extractWeights(weightsOrUrl)
-      return
-    }
-
-    await this.loadFromUri(weightsOrUrl)
+    return Promise.reject("not supopret");
   }
 
   public async loadFromUri(uri: string | undefined) {
-    if (uri && typeof uri !== 'string') {
-      throw new Error(`${this._name}.loadFromUri - expected model uri`)
-    }
-
-    const weightMap = await loadWeightMap(uri, this.getDefaultModelName())
-    this.loadFromWeightMap(weightMap)
+    throw new Error("Not supported");
   }
 
-  public async loadFromDisk(filePath: string | undefined) {
-    if (filePath && typeof filePath !== 'string') {
-      throw new Error(`${this._name}.loadFromDisk - expected model file path`)
-    }
-
-    const { readFile } = env.getEnv()
-
-    const { manifestUri, modelBaseUri } = getModelUris(filePath, this.getDefaultModelName())
-
-    const fetchWeightsFromDisk = (filePaths: string[]) => Promise.all(
-      filePaths.map(filePath => readFile(filePath).then(buf => buf.buffer))
-    )
-    const loadWeights = tf.io.weightsLoaderFactory(fetchWeightsFromDisk)
-
-    const manifest = JSON.parse((await readFile(manifestUri)).toString())
-    const weightMap = await loadWeights(manifest, modelBaseUri)
-
-    this.loadFromWeightMap(weightMap)
-  }
-
+ 
   public loadFromWeightMap(weightMap: tf.NamedTensorMap) {
     const {
       paramMappings,

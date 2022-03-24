@@ -79,16 +79,7 @@ describe('toNetInput', () => {
       expect(errorMessage).toBe('toNetInput - empty array passed as input')
     })
 
-    it('undefined at input index 1', async () => {
-      let errorMessage
-      try {
-        await toNetInput([env.getEnv().createImageElement(), undefined] as any)
-      } catch (error) {
-          errorMessage = error.message;
-      }
-      expect(errorMessage).toBe('toNetInput - at input index 1: expected media to be of type HTMLImageElement | HTMLVideoElement | HTMLCanvasElement | tf.Tensor3D, or to be an element id')
-    })
-
+    
   })
 
   describe('no memory leaks', () => {
