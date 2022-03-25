@@ -1,4 +1,4 @@
-import * as tf from '@tensorflow/tfjs-core';
+import * as tf from '@tensorflow/tfjs';
 
 import { fetchJson, fetchNetWeights, NeuralNetwork } from '../src';
 import { TestEnv } from './Environment';

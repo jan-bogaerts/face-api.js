@@ -1,4 +1,4 @@
-import * as tf from '@tensorflow/tfjs-core';
+import * as tf from '@tensorflow/tfjs';
 
 import { NetInput, TNetInput, toNetInput } from '../dom';
 import { NeuralNetwork } from '../NeuralNetwork';
@@ -16,7 +16,7 @@ export class FaceRecognitionNet extends NeuralNetwork<NetParams> {
     super('FaceRecognitionNet')
   }
 
-  public forwardInput(input: NetInput): tf.Tensor2D {
+  public forwardInput(input: NetInput): tf.Tensor {
 
     const { params } = this
 
@@ -59,7 +59,7 @@ export class FaceRecognitionNet extends NeuralNetwork<NetParams> {
   }
 
   public async forward(input: TNetInput): Promise<tf.Tensor2D> {
-    return this.forwardInput(await toNetInput(input))
+    return <tf.Tensor2D>this.forwardInput(await toNetInput(input))
   }
 
   public async computeFaceDescriptor(input: TNetInput): Promise<Float32Array|Float32Array[]> {

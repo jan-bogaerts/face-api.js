@@ -1,4 +1,4 @@
-import * as tf from '@tensorflow/tfjs-core';
+import * as tf from '@tensorflow/tfjs';
 
 import { createCanvasFromMedia, IDimensions, utils, NetInput, Point, TMediaElement, toNetInput, FaceLandmarks68 } from '../../../src';
 import { getTestEnv } from '../../env';
