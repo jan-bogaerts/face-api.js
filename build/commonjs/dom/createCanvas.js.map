@@ -1,0 +1,1 @@
+{"version":3,"file":"createCanvas.js","sourceRoot":"","sources":["../../../src/dom/createCanvas.ts"],"names":[],"mappings":";;;AAGA,SAAgB,YAAY,CAAC,EAA8B;QAA5B,KAAK,WAAA,EAAE,MAAM,YAAA;IAExC,MAAM,IAAI,KAAK,CAAC,eAAe,CAAC,CAAC;AACrC,CAAC;AAHD,oCAGC;AAED,SAAgB,qBAAqB,CAAC,KAAsD,EAAE,IAAkB;IAE9G,MAAM,IAAI,KAAK,CAAC,eAAe,CAAC,CAAC;AACnC,CAAC;AAHD,sDAGC"}
